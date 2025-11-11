@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Up Game Futuristik</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Variables untuk mode light/dark */
+        :root {
+            --bg-color: #f0f0f0;
+            --text-color: #333;
+            --primary-color: #00d4ff;
+            --secondary-color: #ff007f;
+            --card-bg: #fff;
+            --shadow: rgba(0, 0, 0, 0.1);
+            --glow: 0 0 10px var(--primary-color);
+        }
+
+        .dark-mode {
+            --bg-color: #121212;
+            --text-color: #e0e0e0;
+            --card-bg: #1e1e1e;
+            --shadow: rgba(255, 255, 255, 0.1);
+            --glow: 0 0 15px var(--secondary-color);
+        }
+
+        /* Reset dan font */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color), #e0e0e0);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            padding: 20px 0;
+            box-shadow: 0 4px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fff;
+            text-shadow: var(--glow);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 400;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--secondary-color);
+            text-shadow: var(--glow);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #fff;
+            transition: transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 100px 20px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 0, 127, 0.1));
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: var(--glow);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px var(--primary-color);
+        }
+
+        /* Games */
+        .games {
+            padding: 80px 20px;
+        }
+
+        .games h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: var(--glow);
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px var(--shadow);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .game-card h3 {
+            padding: 20px;
+            font-size: 1.5rem;
+        }
+
+        .game-card p {
+            padding: 0 20px 20px;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* Topup */
+        .topup {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(255, 0, 127, 0.05));
+        }
+
+        .topup h2 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 2.5rem;
+            text-shadow: var(--glow);
+        }
+
+        .topup-form {
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .topup-form label {
+            font-weight: 500;
+        }
+
+        .topup-form input, .topup-form select {
+            padding: 15px;
+            border: 1px solid var(--text-color);
+            border-radius: 10px;
+            background: var(--card-bg);
+            color: var(--text-color);
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .topup-form input:focus, .topup-form select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: var(--glow);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 80px;
+        }
+
+        /* Responsif */
+        @media (max-width: 768px) {
+            .hero h2 {
+                font-size: 2rem;
+            }
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .game-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="logo">GameTopUp</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#games">Games</a></li>
+                    <li><a href="#topup">Top Up</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle">🌙</button>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="container">
+            <h2>Top Up Game Anda dengan Cepat dan Aman</h2>
+            <p>Gaya futuristik untuk pengalaman top up yang luar biasa.</p>
+            <a href="#topup" class="btn-primary">Mulai Top Up</a>
+        </div>
+    </section>
+
+    <section id="games" class="games">
+        <div class="container">
+            <h2>Game Populer</h2>
+            <div class="game-grid">
+                <div class="game-card">
+                    <img src="https://via.placeholder.com/300x200?text=Mobile+Legends" alt="Mobile Legends">
+                    <h3>Mobile Legends</h3>
+                    <p>Top up diamonds dengan mudah.</p>
+                </div>
+                <div class="game-card">
+                    <img src="https://via.placeholder.com/300x200?text=Free+Fire" alt="Free Fire">
+                    <h3>Free Fire</h3>
+                    <p>Dapatkan diamonds dan skins.</p>
+                </div>
+                <div class="game-card">
+                    <img src="https://via.placeholder.com/300x200?text=PUBG+Mobile" alt="PUBG Mobile">
+                    <h3>PUBG Mobile</h3>
+                    <p>UC dan battle pass siap pakai.</p>
+                </div>
+                <div class="game-card">
+                    <img src="https://via.placeholder.com/300x200?text=Genshin+Impact" alt="Genshin Impact">
+                    <h3>Genshin Impact</h3>
+                    <p>Genesis crystals dan primogems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="topup" class="topup">
+        <div class="container">
+            <h2>Form Top Up</h2>
+            <form class="topup-form">
+                <label for="game">Pilih Game:</label>
+                <select id="game" name="game">
+                    <option value="ml">Mobile Legends</option>
+                    <option value="ff">Free Fire</option>
+                    <option value="pubg">PUBG Mobile</option>
+                    <option value="genshin">Genshin Impact</option>
+                </select>
+                <label for="amount">Jumlah Top Up:</label>
+                <input type="number" id="amount" name="amount" placeholder="Masukkan jumlah" min="1">
+                <label for="email">Email Anda:</label>
+                <input type="email" id="email" name="email" placeholder="email@example.com">
+                <button type="submit" class="btn-primary">Top Up Sekarang</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 GameTopUp. Semua hak dilindungi. | Gaya Futuristik oleh AI.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle dark/light mode
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            themeToggle.textContent = body.classList.contains('dark-mode') ? '☀️' : '🌙';
+        });
+
+        // Simpan preferensi mode di localStorage (opsional)
+        if (localStorage.getItem('theme') === 'dark') {
+            body.classList.add('dark-mode');
+            themeToggle.textContent = '☀️';
+        }
+        themeToggle.addEventListener('click', () => {
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+    </script>
+</body>
+</html>

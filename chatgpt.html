@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>TopUp Game — NeoCharge</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#070712; --panel:#0f1116; --muted:#9aa3bb; --accent:#00e5ff; --accent-2:#8a3ffc; --glass: rgba(255,255,255,0.04);
+      --card-glow: 0 6px 30px rgba(138,63,252,0.14);
+      --radius:14px; --shadow: 0 10px 30px rgba(2,6,23,0.6);
+      color-scheme: dark;
+    }
+    [data-theme='light']{ --bg:#f6f7fb; --panel:#ffffff; --muted:#475569; --accent:#0066ff; --accent-2:#9b5cff; --glass: rgba(2,6,23,0.04); --card-glow: 0 8px 30px rgba(0,102,255,0.08); --shadow: 0 8px 20px rgba(10,15,25,0.08); color-scheme: light;}
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(138,63,252,0.06), transparent 8%),
+                  radial-gradient(900px 400px at 90% 90%, rgba(0,229,255,0.04), transparent 6%),
+                  var(--bg);
+      color:var(--muted); -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      padding:32px;
+    }
+
+    .container{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:start}
+    header{grid-column:1 / -1;display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;box-shadow:var(--card-glow)}
+    .logo span{font-family:Orbitron, sans-serif;color:white;font-weight:700}
+    h1{margin:0;font-family:Orbitron, sans-serif;color:var(--accent-2);font-size:20px}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    .theme-toggle{display:flex;gap:8px;align-items:center}
+    .toggle-btn{background:var(--panel);border:1px solid rgba(255,255,255,0.03);padding:8px;border-radius:12px;cursor:pointer;box-shadow:var(--shadow);display:inline-flex;align-items:center;gap:8px}
+    .toggle-btn .dot{width:28px;height:28px;border-radius:8px;background:linear-gradient(90deg,#fff2, #0000);display:flex;align-items:center;justify-content:center;font-size:12px}
+
+    main{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:22px;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero{display:flex;gap:22px;align-items:center}
+    .hero-left{flex:1}
+    .hero h2{margin:0;font-family:Orbitron;color:var(--accent);font-size:28px}
+    .hero p{color:var(--muted);margin-top:8px}
+    .search{margin-top:16px;display:flex;gap:10px}
+    .search input{flex:1;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+    .search button{padding:12px 18px;border-radius:12px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#001;padding-left:14px;font-weight:700}
+
+    .catalog{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:22px}
+    .card{background:linear-gradient(180deg,var(--panel), rgba(255,255,255,0.02));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:var(--card-glow);}
+    .card .title{font-weight:600;color:var(--accent)}
+    .price{font-family:Orbitron;font-size:20px;color:var(--accent-2);margin-top:8px}
+    .card small{display:block;color:var(--muted);margin-top:6px}
+    .card button{margin-top:12px;padding:10px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent-2),var(--accent));color:white;width:100%;cursor:pointer}
+
+    /* Right panel */
+    aside{background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .balance{display:flex;flex-direction:column;gap:8px}
+    .bal-amount{font-family:Orbitron;font-size:28px;color:var(--accent)}
+    .input-row{display:flex;gap:8px;margin-top:12px}
+    .input-row input{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.03);background:transparent}
+    .pay-btn{margin-top:12px;padding:12px;border-radius:12px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));font-weight:700;color:#001;cursor:pointer;width:100%}
+
+    .info{margin-top:18px;font-size:13px;color:var(--muted)}
+
+    footer{grid-column:1 / -1;margin-top:18px;color:var(--muted);font-size:13px;display:flex;justify-content:space-between}
+
+    /* responsive */
+    @media (max-width:980px){
+      .container{grid-template-columns:1fr; padding:0 12px}
+      header{flex-direction:column;align-items:flex-start;gap:14px}
+      .hero{flex-direction:column}
+    }
+
+    /* Futuristic accents */
+    .neon-line{height:2px;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent-2));margin:18px 0}
+
+    /* subtle hover */
+    .card:hover{transform:translateY(-6px);transition:transform .28s}
+    button:active{transform:scale(.99)}
+
+    /* accessibility */
+    input:focus, button:focus{outline:3px solid rgba(0,229,255,0.08)}
+  </style>
+</head>
+<body data-theme="dark">
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo"><span>NC</span></div>
+        <div>
+          <h1>NeoCharge</h1>
+          <p class="lead">Top up cepat — aman — desain futuristik</p>
+        </div>
+      </div>
+
+      <div class="theme-toggle">
+        <div class="toggle-btn" id="themeBtn" role="button" tabindex="0" aria-pressed="false">
+          <div class="dot" id="themeIcon">🌙</div>
+          <div style="font-size:13px;color:var(--muted)">Mode</div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="hero">
+        <div class="hero-left">
+          <h2>Top Up Diamond & Koin — Cepat, Tanpa Ribet</h2>
+          <p>Pilih game, nominal, dan metode pembayaran. Koin akan masuk otomatis ke user ID Anda setelah konfirmasi.</p>
+
+          <div class="search">
+            <input id="searchInput" placeholder="Cari game (contoh: Mobile Legends, Free Fire, PUBG)" aria-label="Search game">
+            <button id="searchBtn">Cari</button>
+          </div>
+
+          <div class="neon-line"></div>
+
+          <div class="catalog" id="catalog">
+            <!-- Cards injected by JS -->
+          </div>
+        </div>
+        <aside>
+          <div class="balance">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <div>
+                <small style="color:var(--muted)">Saldo Akun</small>
+                <div class="bal-amount" id="balance">Rp 150.000</div>
+              </div>
+              <div style="text-align:right">
+                <small style="color:var(--muted)">ID Pengguna</small>
+                <div style="font-weight:700">#DimasN12</div>
+              </div>
+            </div>
+
+            <div class="input-row">
+              <input id="userId" placeholder="Masukkan User ID" aria-label="User ID">
+            </div>
+            <button class="pay-btn" id="buyBtn">Beli Sekarang</button>
+
+            <div class="info">
+              <strong>Metode Pembayaran:</strong>
+              <ul style="margin:8px 0 0 18px;padding:0">
+                <li>Transfer Bank</li>
+                <li>OVO / GoPay / Dana</li>
+                <li>Virtual Account</li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <footer>
+      <div>© <span id="year"></span> NeoCharge • All rights reserved</div>
+      <div>Designed with ⚡ by Neo Labs</div>
+    </footer>
+  </div>
+
+  <script>
+    /* Demo data for catalog */
+    const games=[
+      {name:'Mobile Legends',item:'Diamond 50',price:12000},
+      {name:'Mobile Legends',item:'Diamond 500',price:105000},
+      {name:'Free Fire',item:'Diamond 70',price:15000},
+      {name:'PUBG Mobile',item:'UC 60',price:20000},
+      {name:'Genshin Impact',item:'Primogem 160',price:25000},
+      {name:'Valorant',item:'VP 650',price:100000}
+    ];
+
+    const catalog=document.getElementById('catalog');
+    function renderCat(list){
+      catalog.innerHTML='';
+      list.forEach((g,i)=>{
+        const div=document.createElement('div'); div.className='card';
+        div.innerHTML=`
+          <div class=\"title\">${g.name}</div>
+          <div style=\"display:flex;justify-content:space-between;align-items:center\">
+            <div>
+              <div class=\"price\">Rp ${g.price.toLocaleString('id-ID')}</div>
+              <small>${g.item}</small>
+            </div>
+            <div style=\"width:64px;height:64px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#001;font-weight:700;font-family:Orbitron\">G</div>
+          </div>
+          <button data-index=\"${i}\">Top Up</button>
+        `;
+        catalog.appendChild(div);
+      });
+    }
+    renderCat(games);
+
+    // search
+    document.getElementById('searchBtn').addEventListener('click', ()=>{
+      const q=document.getElementById('searchInput').value.toLowerCase().trim();
+      if(!q){ renderCat(games); return; }
+      const found=games.filter(g=> g.name.toLowerCase().includes(q) || g.item.toLowerCase().includes(q));
+      renderCat(found.length?found:[]);
+    });
+
+    // click buy
+    catalog.addEventListener('click', (e)=>{
+      const btn=e.target.closest('button'); if(!btn) return;
+      const idx=btn.dataset.index; const g=games[idx];
+      const uid=document.getElementById('userId').value.trim();
+      if(!uid){ alert('Masukkan User ID terlebih dahulu'); document.getElementById('userId').focus(); return; }
+      // simple demo flow
+      if(confirm(`Beli ${g.item} (${g.name}) seharga Rp ${g.price.toLocaleString('id-ID')} untuk ID ${uid}?`)){
+        alert('Transaksi berhasil (demo). Koin akan dikirim otomatis.');
+      }
+    });
+
+    // buy from aside
+    document.getElementById('buyBtn').addEventListener('click', ()=>{ alert('Pilih paket di sebelah kiri terlebih dahulu'); });
+
+    // theme toggle
+    const body=document.body; const themeBtn=document.getElementById('themeBtn'); const themeIcon=document.getElementById('themeIcon');
+    function setTheme(t){ body.setAttribute('data-theme', t); localStorage.setItem('theme', t); themeIcon.textContent = t==='dark' ? '🌙' : '☀️'; themeBtn.setAttribute('aria-pressed', t!=='dark'); }
+    themeBtn.addEventListener('click', ()=>{ setTheme(body.getAttribute('data-theme')==='dark'?'light':'dark'); });
+    // initialize
+    const saved=localStorage.getItem('theme')||'dark'; setTheme(saved);
+
+    // year
+    document.getElementById('year').textContent=(new Date()).getFullYear();
+  </script>
+</body>
+</html>
